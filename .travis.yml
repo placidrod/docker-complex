@@ -1,0 +1,23 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t placidrod/complex-client-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run placidrod/complex-client-test yarn test -- --coverage
+
+after_success:
+  - docker build -t placidrod/complex-client ./client
+  - docker build -t placidrod/complex-nginx ./nginx
+  - docker build -t placidrod/complex-server ./server
+  - docker build -t placidrod/complex-worker ./worker
+  # Log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push the above images to docker hub
+  - docker push placidrod/complex-client
+  - docker push placidrod/complex-nginx
+  - docker push placidrod/complex-server
+  - docker push placidrod/complex-worker 
