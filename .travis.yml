@@ -21,3 +21,18 @@ after_success:
   - docker push placidrod/complex-nginx
   - docker push placidrod/complex-server
   - docker push placidrod/complex-worker 
+
+# # Deploy to AWS config 
+# # following config values are sample
+# deploy:
+#   provider: elasticbeanstalk
+#   region: us-west-1
+#   app: docker-complex
+#   env: ComplexDocker-env
+#   bucket_name: elasticbeanstalk-us-west-1-306476627547
+#   bucket_path: docker-complex
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key:
+#     secure: $AWS_SECRET_KEY
